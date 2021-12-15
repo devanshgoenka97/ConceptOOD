@@ -3,7 +3,7 @@
 This is the source code for the project done in Fall 2021 by Devansh Goenka and Yixuan Li.
 
 In this work, we propose ConceptOOD, a technique for introducing interpretability while performing OOD detection.
-Our method is motivated by the findings in [Network Dissection](http://netdissect.csail.mit.edu/final-network-dissection.pdf) and [Net2Vec](https://openaccess.thecvf.com/content_cvpr_2018/papers/Fong_Net2Vec_Quantifying_and_CVPR_2018_paper.pdf) which have found that convolutional neural networks can learn disentangled concepts, which we leverage to perform OOD detection along with the potential to explain these predictions. 
+Our method is motivated by the findings in [Network Dissection](http://netdissect.csail.mit.edu/final-network-dissection.pdf) and [Net2Vec](https://openaccess.thecvf.com/content_cvpr_2018/papers/Fong_Net2Vec_Quantifying_and_CVPR_2018_paper.pdf), that convolutional neural networks can learn disentangled concepts, which we leverage to perform OOD detection along with the potential to explain these predictions. 
 
 ![pipelines](figs/train.png)
 
@@ -15,7 +15,7 @@ Our method is motivated by the findings in [Network Dissection](http://netdissec
 
 #### In-distribution dataset
 
-Please download the Broden dataset for probing the pre-trained network from [here](https://github.com/CSAILVision/NetDissect/blob/release1/script/dlbroden.sh).
+Please download the Broden dataset for probing the pre-trained network from [here](https://github.com/CSAILVision/NetDissect/blob/release1/script/dlbroden.sh) and place it in `./datasets/broden`.
 
 Please download [ImageNet-1k](http://www.image-net.org/challenges/LSVRC/2012/index) and place the training data and validation data in
 `./datasets/id_data/ILSVRC-2012/train` and  `./datasets/id_data/ILSVRC-2012/val`, respectively.

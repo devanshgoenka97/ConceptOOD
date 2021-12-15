@@ -7,7 +7,6 @@ import numpy as np
 from util.args_loader import get_args
 from util.data_loader import get_loader_probe, num_classes_dict
 import numpy as np
-from sklearn.model_selection import train_test_split
 import csv
 import pickle
 
@@ -41,7 +40,7 @@ activation_map = {}
 print("Loading activations from memory")
 
 # Loading stored pre-trained activations into memory
-with open('broden/activations.pkl', 'rb') as f:
+with open('artifacts/activations.pkl', 'rb') as f:
     activation_map = pickle.load(f)
 
 print("Loaded all activations")
@@ -64,18 +63,18 @@ for i, concept in enumerate(concepts):
     # Attaching linear classifier
     layer = nn.Linear(512, 1).cuda()
 
-    if not os.path.exists("broden/classifiers_2/concept_classifier_{0}.pth".format(concept)):
+    if not os.path.exists("artifacts/classifiers/concept_classifier_{0}.pth".format(concept)):
         print("Classifier was not trained due to too few samples")
         continue
 
-    checkpoint = torch.load("broden/classifiers_2/concept_classifier_{0}.pth".format(concept))
+    checkpoint = torch.load("artifacts/classifiers/concept_classifier_{0}.pth".format(concept))
     layer.load_state_dict(checkpoint['model_state_dict'])
     layer.eval()
     
     print(f"Testing for concept : {concept}")
     
     # Loading indices of all positive samples from broden
-    with open("broden/pos_samples/concept_pos_{0}.pkl".format(concept), "rb") as f:
+    with open("artifacts/pos_samples/concept_pos_{0}.pkl".format(concept), "rb") as f:
         pos_indices = pickle.load(f)
     
     # Fetching negative indices by intersection of all indices and positive indices
@@ -130,9 +129,9 @@ for i, concept in enumerate(concepts):
     print(f"Done testing for concept {concept}")
 
 print("Found all accuracies")
-save_dir = os.path.join('broden', 'results')
+save_dir = os.path.join('artifacts', 'results')
 os.makedirs(save_dir, exist_ok=True)
-save_file = "accuracies_2.pkl"
+save_file = "accuracies.pkl"
 with open(os.path.join(save_dir, save_file), 'wb') as f:
     pickle.dump(accuracies, f)
 print("Storing accuracies")

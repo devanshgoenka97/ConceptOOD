@@ -33,10 +33,10 @@ transform_largescale = transforms.Compose([
 ])
 
 # Using de-depulicated iNaturalist, SUN, Places and Textures as the OOD datasets
-inat_dataset = torchvision.datasets.ImageFolder('/nobackup/iNaturalist', transform_largescale)
-sun_dataset = torchvision.datasets.ImageFolder('/nobackup/SUN', transform_largescale)
-places_dataset = torchvision.datasets.ImageFolder('/nobackup/Places', transform_largescale)
-dtd_dataset = torchvision.datasets.ImageFolder('/nobackup/dtd/images', transform_largescale)
+inat_dataset = torchvision.datasets.ImageFolder('./datasets/ood_data/iNaturalist', transform_largescale)
+sun_dataset = torchvision.datasets.ImageFolder('./datasets/ood_data/SUN', transform_largescale)
+places_dataset = torchvision.datasets.ImageFolder('./datasets/ood_data/Places', transform_largescale)
+dtd_dataset = torchvision.datasets.ImageFolder('./datasets/ood_data/dtd/images', transform_largescale)
 
 ood_datasets = [('iNaturalist', inat_dataset), ('SUN', sun_dataset), ('Places', places_dataset), ('Textures', dtd_dataset)]
 
@@ -47,7 +47,7 @@ model.eval()
 
 # Only reading the object file to extract semantics
 concepts = []
-with open('/nobackup/broden1_224/c_object.csv', 'r') as f:
+with open('/datasets/broden/broden1_224/c_object.csv', 'r') as f:
     csvreader = csv.reader(f)
     # Elegantly ignoring first row in CSV file
     skip  = 0

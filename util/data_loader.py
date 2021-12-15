@@ -15,7 +15,7 @@ def get_loader_probe(args):
     transform = {
         'imagenet': transform_test_largescale,
     }[args.in_dataset]
-    dataset = BrodenDataset('/nobackup/broden1_224',
+    dataset = BrodenDataset('/datasets/broden/broden1_224',
                             categories=["object", "part", "scene", "material", "texture", "color"], transform=transform)
     return dataloader.DataLoader(dataset, batch_size=args.batch_size, shuffle=False, num_workers=2, collate_fn=broden_collate)
 

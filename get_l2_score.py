@@ -23,7 +23,7 @@ def min_euclid_score(sample_probs, in_scores):
 
 # Only reading the object file to extract semantics
 concepts = []
-with open('/nobackup/broden1_224/c_object.csv', 'r') as f:
+with open('./datasets/broden/broden1_224/c_object.csv', 'r') as f:
     csvreader = csv.reader(f)
     # Elegantly ignoring first row in CSV file
     skip  = 0
@@ -35,7 +35,7 @@ with open('/nobackup/broden1_224/c_object.csv', 'r') as f:
 
 # Extracting broden labels for human readability
 labels = {}
-with open('/nobackup/broden1_224/label.csv', 'r') as f:
+with open('./datasets/broden/broden1_224/label.csv', 'r') as f:
     csvreader = csv.reader(f)
     # Elegantly ignoring first row in CSV file
     skip  = 0
@@ -75,7 +75,7 @@ for target in in_scores:
 # This part propagates each test sample to get the IoU scores for each image in ID dataset.
 
 # Fetching stored validation ID scores
-with open('broden/results/id_score_val.pkl', 'rb') as f:
+with open('artifacts/results/id_score_val.pkl', 'rb') as f:
     test_scores = pickle.load(f)
 
 id_dist = []
@@ -101,7 +101,7 @@ id_ious = np.array(id_dist)
 
 print(f"Threshold is {threshold}")
 
-with open('broden/results/ood_scores_new.pkl', 'rb') as f:
+with open('artifacts/results/ood_scores_new.pkl', 'rb') as f:
     ood_scores = pickle.load(f)
 
 ood_dists = {}
@@ -132,5 +132,5 @@ for ood_set in ood_dists:
     results = cal_metric(id_ious, ood_dists[ood_set])
     print(f"FPR for {ood_set} is {results['FPR']*100}")
     print(f"AUROC for {ood_set} is {results['AUROC']*100}")
-    plot_distrib(id_dist, ood_dists[ood_set], path='broden/results/distrib/{out_dataset}_{method}.png'.format(method='Euclidean',out_dataset=ood_set),
+    plot_distrib(id_dist, ood_dists[ood_set], path='artifacts/results/distrib/{out_dataset}_{method}.png'.format(method='Euclidean',out_dataset=ood_set),
                       title="{out_dataset} {method}".format(method='Euclidean Distance', out_dataset=ood_set))

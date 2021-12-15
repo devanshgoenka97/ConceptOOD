@@ -1,9 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import numpy as np
-from util.mahalanobis_lib import get_Mahalanobis_score, get_ModedMaha_score
-from util.gram_matrix_lib import compute_deviations
+import numpy as np 
 
 default_forward = lambda inputs, model: model(inputs)
 

@@ -29,7 +29,7 @@ def max_iou_score(sample, target_closest):
 
 # Only reading the object file to extract semantics
 concepts = []
-with open('/nobackup/broden1_224/c_object.csv', 'r') as f:
+with open('/datasets/broden/broden1_224/c_object.csv', 'r') as f:
     csvreader = csv.reader(f)
     # Elegantly ignoring first row in CSV file
     skip  = 0
@@ -41,7 +41,7 @@ with open('/nobackup/broden1_224/c_object.csv', 'r') as f:
 
 # Extracting broden labels for human readability
 labels = {}
-with open('/nobackup/broden1_224/label.csv', 'r') as f:
+with open('/datasets/broden/broden1_224/label.csv', 'r') as f:
     csvreader = csv.reader(f)
     # Elegantly ignoring first row in CSV file
     skip  = 0

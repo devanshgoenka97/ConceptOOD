@@ -32,7 +32,7 @@ transform_largescale = transforms.Compose([
 ])
 
 # Using ImageNet 2012 val set as the dataset
-dataset = torchvision.datasets.ImageFolder('/nobackup/ImageNet/train', transform_largescale)
+dataset = torchvision.datasets.ImageFolder('./datasets/id_data/ImageNet/train', transform_largescale)
 
 # Taking a subset of ImageNet
 targets = [363, 295, 296, 297, 298, 299, 281, 283, 284, 285, 286, 288, 290, 7, 8, 3, 2, 18, 21, 49, 50, 158, \

@@ -47,7 +47,7 @@ with open('broden/activations.pkl', 'rb') as f:
 
 # Only reading the object file to extract semantics
 concepts = []
-with open('/nobackup/broden1_224/c_part.csv', 'r') as f:
+with open('/datasets/broden/broden1_224/c_part.csv', 'r') as f:
     csvreader = csv.reader(f)
     # Elegantly ignoring first row in CSV file
     skip  = 0
