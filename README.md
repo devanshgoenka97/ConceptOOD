@@ -5,6 +5,10 @@ This is the source code for the project done in Fall 2021 by Devansh Goenka and 
 In this work, we propose ConceptOOD, a technique for introducing interpretability while performing OOD detection.
 Our method is motivated by the findings in [Network Dissection](http://netdissect.csail.mit.edu/final-network-dissection.pdf) and [Net2Vec](https://openaccess.thecvf.com/content_cvpr_2018/papers/Fong_Net2Vec_Quantifying_and_CVPR_2018_paper.pdf) which have found that convolutional neural networks can learn disentangled concepts, which we leverage to perform OOD detection along with the potential to explain these predictions. 
 
+![pipelines](figs/train.png)
+
+![pipelines](figs/inference.png)
+
 ## Usage
 
 ### 1. Dataset Preparation
