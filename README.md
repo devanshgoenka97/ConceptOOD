@@ -87,14 +87,3 @@ python get_maha_score.py
 ConceptOOD achieves state-of-the-art performance in terms of FPR95 averaged on the 4 OOD datasets.
 
 ![results](figs/results.png)
-
-## Citation
-
-If you use our codebase, please cite our work:
-```
-@inproceedings{goenka2021concept,
-  title={On Using Concept Disentanglement for Out-of-Distribution Detection},
-  author={Goenka, Devansh and Li, Yixuan},
-  year={2021}
-}
-```
