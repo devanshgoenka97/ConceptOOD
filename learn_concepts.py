@@ -1,16 +1,12 @@
 from __future__ import print_function
 import os
-from typing import ClassVar
-
 import torch
 import torch.nn as nn
 import numpy as np
 import torch.optim as optim
 from util.args_loader import get_args
-from util.broden_loader import broden_collate
 from util.data_loader import get_loader_probe, num_classes_dict
 import numpy as np
-from itertools import cycle
 import pickle
 import csv
 
@@ -96,12 +92,6 @@ for i, concept in enumerate(concepts):
                                             shuffle=True, collate_fn=broden_indice_collate)
     trainloader_neg = torch.utils.data.DataLoader(trainset_neg, batch_size=args.batch_size,
                                             shuffle=True, collate_fn=broden_indice_collate)
-    
-    # Handling case where we need to re-use imbalanced dataset
-    # if trainset_pos.__len__() < trainset_neg.__len__():
-    #    trainloader_pos = cycle(trainloader_pos)
-    # else:
-    #    trainloader_neg = cycle(trainloader_neg)
 
     for epoch in range(20):  # loop over the dataset multiple times
         running_loss = 0.0
@@ -122,10 +112,6 @@ for i, concept in enumerate(concepts):
             labels = torch.cat((ones, zeros), dim=0)
 
             curr_batch_size = inputs.shape[0]
-
-            # Fetching broden indices from the input to lookup the activations from the network
-            #indices_pos = np.array([info_dict_pos[m]['i'] for m in range(inputs_pos.shape[0])])
-            #indices_neg = np.array([info_dict_neg[m]['i'] for m in range(inputs_neg.shape[0])])
 
             # Combining the broden indices to form a single array
             indices = np.concatenate((indices_pos, indices_neg))
@@ -153,9 +139,9 @@ for i, concept in enumerate(concepts):
                 running_loss = 0.0
 
     print(f"Done training for concept : {concept}")
-    CONCEPT_PATH = "broden/classifiers_2/concept_classifier_{0}.pth".format(concept)
+    CONCEPT_PATH = "artifacts/classifiers/concept_classifier_{0}.pth".format(concept)
     torch.save({
-            'epoch': 5,
+            'epoch': 20,
             'model_state_dict': layer.state_dict(),
             'optimizer_state_dict': optimizer.state_dict(),
             }, CONCEPT_PATH)

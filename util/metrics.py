@@ -1,14 +1,10 @@
 from __future__ import print_function
 import argparse
-import os
 import seaborn as sns
 import matplotlib.pyplot as plt
-import sys
 import pandas as pd
 
-from scipy import misc
 import numpy as np
-#from ylib.yplot import plot_distrib
 
 def plot_distrib(dist1, dist2=None, path=None, figsize=(6,4), xticks=None, yticks=None, xlim=None, ylim=None, linewidth=1, title=None, xlabel=None, ylabel=None, fontsize=20, fpr_shade=True, color='#5f87bc'):
     plt.figure(figsize=figsize)

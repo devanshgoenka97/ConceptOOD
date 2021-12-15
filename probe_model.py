@@ -44,7 +44,7 @@ with torch.no_grad():
         if (j+1) % 100 == 0:    # print every 100 mini-batches
             print(f"Done storing for batch :{j+1}")
 
-f = open('activations.pkl', 'wb')
+f = open('artifacts/activations.pkl', 'wb')
 pickle.dump(activations, f)
 
 print('Finished extracting all model activations')

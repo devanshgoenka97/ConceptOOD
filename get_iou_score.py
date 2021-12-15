@@ -4,9 +4,6 @@ import numpy as np
 import pickle
 import os
 from util.metrics import cal_metric, plot_distrib
-import matplotlib.pyplot as plt
-import seaborn as sns
-import pandas as pd
 import torch
 import csv
 
@@ -85,7 +82,7 @@ result = '''
 </html>
 '''
 
-#result_file = open('broden/results/iou.html', 'w')
+result_file = open('artifacts/results/iou.html', 'w')
 
 # For each target in train ID dataset
 for target in in_scores:
@@ -105,8 +102,7 @@ closest_concepts = {}
 for target in in_scores:
     closest_concepts[target] = true_concepts[np.argsort(-in_scores[target])[:k]]
 
-id_out = '''
-'''
+id_out = ''' '''
 
 for target in closest_concepts:
     toplabels = ','.join([labels[l] for l in closest_concepts[target]])
@@ -150,7 +146,7 @@ ood_ious = {}
 for ood_set in ood_scores:
     ood_ious[ood_set] = []
 
-ood_out = ''''''
+ood_out = ''' '''
 
 # For each OOD dataset
 for ood_set in ood_scores:
@@ -176,28 +172,14 @@ for ood_set in ood_scores:
 for ood_set in ood_ious:
     ood_ious[ood_set] = np.array(ood_ious[ood_set])
 
-#result = result.format(id_out, ood_out)
-#result_file.write(result)
-#result_file.close()
-
-# iNat 12 13
-# Places 11 13
-# SUN 12 13
-# DTD 34 78
-
+result = result.format(id_out, ood_out)
+result_file.write(result)
+result_file.close()
 
 # Getting metrics such as AUROC, FPR at TPR 95
 for ood_set in ood_ious:
     results = cal_metric(id_ious, ood_ious[ood_set])
     print(f"FPR for {ood_set} is {results['FPR']*100}")
     print(f"AUROC for {ood_set} is {results['AUROC']*100}")
-    if ood_set == 'inat':
-        name = 'iNaturalist'
-    elif ood_set == 'sun':
-        name = 'SUN'
-    elif ood_set == 'places':
-        name = 'Places'
-    else:
-        name = 'Textures'
-    plot_distrib(id_ious, ood_ious[ood_set], path='broden/results/distrib/{out_dataset}_{method}_{param}.png'.format(method='IoU',out_dataset=ood_set, param=k),
-                      title="{out_dataset}".format(method='', out_dataset=name))
+    plot_distrib(id_ious, ood_ious[ood_set], path='artifacts/results/distrib/{out_dataset}_{method}_{param}.png'.format(method='IoU',out_dataset=ood_set, param=k),
+                      title="{out_dataset}".format(method='', out_dataset=ood_set))

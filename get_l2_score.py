@@ -127,11 +127,6 @@ for ood_set in ood_scores:
 for ood_set in ood_dists:
     ood_dists[ood_set] = np.array(ood_dists[ood_set])
 
-# iNat 12 13
-# Places 11 13
-# SUN 12 13
-# DTD 34 78
-
 # Getting metrics such as AUROC, FPR at TPR 95
 for ood_set in ood_dists:
     results = cal_metric(id_ious, ood_dists[ood_set])
