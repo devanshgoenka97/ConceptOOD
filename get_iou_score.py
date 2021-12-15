@@ -54,14 +54,14 @@ with open('/nobackup/broden1_224/label.csv', 'r') as f:
 true_concepts = []
 # Filtering out concepts that are not trained on
 for i, concept in enumerate(concepts):
-    if not os.path.exists("broden/classifiers_2/concept_classifier_{0}.pth".format(concept)):
+    if not os.path.exists("artifacts/classifiers/concept_classifier_{0}.pth".format(concept)):
         continue
     true_concepts.append(concept)
 
 true_concepts = np.array(true_concepts)
 
 # Fetching stored training ID scores
-with open('broden/results/id_score_train.pkl', 'rb') as f:
+with open('artifacts/results/id_score_train.pkl', 'rb') as f:
     in_scores = pickle.load(f)
 
 k = 15
@@ -111,7 +111,7 @@ for target in closest_concepts:
 # This part propagates each test sample to get the IoU scores for each image in ID dataset.
 
 # Fetching stored validation ID scores
-with open('broden/results/id_score_val.pkl', 'rb') as f:
+with open('artifacts/results/id_score_val.pkl', 'rb') as f:
     test_scores = pickle.load(f)
 
 id_ious = []
@@ -139,7 +139,7 @@ id_ious = np.array(id_ious)
 print(f"Threshold is {threshold}")
 print(f"K is {k}")
 
-with open('broden/results/ood_scores_new.pkl', 'rb') as f:
+with open('artifacts/results/ood_scores.pkl', 'rb') as f:
     ood_scores = pickle.load(f)
 
 ood_ious = {}

@@ -53,7 +53,7 @@ for i in range(1, 1198):
             if is_present(k, concept, info_dict):
                 indices.append(info_dict[k]['i'])
     indices = np.array(indices)
-    save_dir = os.path.join('broden', 'pos_samples')
+    save_dir = os.path.join('artifacts', 'pos_samples')
     os.makedirs(save_dir, exist_ok=True)
     save_file = "concept_pos_{0}.pkl".format(concept)
     print(f"Storing positive samples for Concept: {concept}")

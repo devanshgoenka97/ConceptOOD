@@ -87,7 +87,7 @@ for i, target in enumerate(targets):
 
             # Iterate over each classifier to obtain concept probability
             for i, concept in enumerate(concepts):
-                if not os.path.exists("broden/classifiers_2/concept_classifier_{0}.pth".format(concept)):
+                if not os.path.exists("artifacts/classifiers/concept_classifier_{0}.pth".format(concept)):
                     print("Classifier was not trained due to too few samples")
                     continue
                 
@@ -96,7 +96,7 @@ for i, target in enumerate(targets):
                 if concept not in result_log[target]:
                     result_log[target][concept] = []
 
-                checkpoint = torch.load("broden/classifiers_2/concept_classifier_{0}.pth".format(concept))
+                checkpoint = torch.load("artifacts/classifiers/concept_classifier_{0}.pth".format(concept))
                 layer.load_state_dict(checkpoint['model_state_dict'])
                 layer.eval()
 
@@ -113,7 +113,7 @@ for i, target in enumerate(targets):
 print("Done retrieving in-distribution scores for all targets")
 
 # Saving results to file
-save_dir = os.path.join('broden', 'results')
+save_dir = os.path.join('artifacts', 'results')
 os.makedirs(save_dir, exist_ok=True)
 
 save_file = "id_score_train.pkl"

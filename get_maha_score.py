@@ -36,14 +36,14 @@ with open('/nobackup/broden1_224/label.csv', 'r') as f:
 true_concepts = []
 # Filtering out concepts that are not trained on
 for i, concept in enumerate(concepts):
-    if not os.path.exists("broden/classifiers_2/concept_classifier_{0}.pth".format(concept)):
+    if not os.path.exists("artifacts/classifiers/concept_classifier_{0}.pth".format(concept)):
         continue
     true_concepts.append(concept)
 
 true_concepts = np.array(true_concepts)
 
 # Fetching stored train ID scores
-with open('broden/results/id_score_train.pkl', 'rb') as f:
+with open('artifacts/results/id_score_train.pkl', 'rb') as f:
     in_scores = pickle.load(f)
 
 maha_params = {}
@@ -92,7 +92,7 @@ def max_maha_score(sample, maha_params):
 # This part propagates each test sample to get the Mahalanobis scores for each image in ID dataset.
 
 # Fetching stored ID scores
-with open('broden/results/id_score_val.pkl', 'rb') as f:
+with open('artifacts/results/id_score_val.pkl', 'rb') as f:
     test_scores = pickle.load(f)
 
 id_mahas = []
@@ -118,7 +118,7 @@ id_mahas = np.array(id_mahas)
 
 print(f"Threshold is {threshold}")
 
-with open('broden/results/ood_scores_new.pkl', 'rb') as f:
+with open('artifacts/results/ood_scores.pkl', 'rb') as f:
     ood_scores = pickle.load(f)
 
 ood_mahas = {}
@@ -148,13 +148,5 @@ for ood_set in ood_mahas:
     results = cal_metric(id_mahas, ood_mahas[ood_set])
     print(f"FPR for {ood_set} is {results['FPR']*100}")
     print(f"AUROC for {ood_set} is {results['AUROC']*100}")
-    if ood_set == 'inat':
-        name = 'iNaturalist'
-    elif ood_set == 'sun':
-        name = 'SUN'
-    elif ood_set == 'places':
-        name = 'Places'
-    else:
-        name = 'Textures'
-    plot_distrib(id_mahas, ood_mahas[ood_set], path='broden/results/distrib/{out_dataset}_{method}.png'.format(method='Mahalanobis Distance',out_dataset=ood_set),
-                      title="{out_dataset}".format(method='', out_dataset=name))
+    plot_distrib(id_mahas, ood_mahas[ood_set], path='artifacts/results/distrib/{out_dataset}_{method}.png'.format(method='Mahalanobis Distance',out_dataset=ood_set),
+                      title="{out_dataset}".format(method='', out_dataset=ood_set))

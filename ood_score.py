@@ -38,7 +38,7 @@ sun_dataset = torchvision.datasets.ImageFolder('/nobackup/SUN', transform_larges
 places_dataset = torchvision.datasets.ImageFolder('/nobackup/Places', transform_largescale)
 dtd_dataset = torchvision.datasets.ImageFolder('/nobackup/dtd/images', transform_largescale)
 
-ood_datasets = [('inat', inat_dataset), ('sun', sun_dataset), ('places', places_dataset), ('dtd', dtd_dataset)]
+ood_datasets = [('iNaturalist', inat_dataset), ('SUN', sun_dataset), ('Places', places_dataset), ('Textures', dtd_dataset)]
 
 # ResNet based on pre-trained ImageNet
 model = resnet18(pretrained=True)
@@ -80,11 +80,11 @@ with torch.no_grad():
                 # Load the trained binary classifier for the given concept
                 layer = torch.nn.Linear(512, 1).cuda()
                 
-                if not os.path.exists("broden/classifiers_2/concept_classifier_{0}.pth".format(concept)):
+                if not os.path.exists("artifacts/classifiers/concept_classifier_{0}.pth".format(concept)):
                     print("Classifier was not trained due to too few samples")
                     continue
                 
-                checkpoint = torch.load("broden/classifiers_2/concept_classifier_{0}.pth".format(concept))
+                checkpoint = torch.load("artifacts/classifiers/concept_classifier_{0}.pth".format(concept))
                 layer.load_state_dict(checkpoint['model_state_dict'])
                 layer.eval()
 
@@ -105,10 +105,10 @@ with torch.no_grad():
 print("Done retrieving scores for all OOD samples")
 
 # Saving results to file
-save_dir = os.path.join('broden', 'results')
+save_dir = os.path.join('artifacts', 'results')
 os.makedirs(save_dir, exist_ok=True)
 
-save_file = "ood_scores_new.pkl"
+save_file = "ood_scores.pkl"
 with open(os.path.join(save_dir, save_file), 'wb') as f:
     pickle.dump(ood_scores, f)
 
