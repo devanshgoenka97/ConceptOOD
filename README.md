@@ -86,4 +86,4 @@ python get_maha_score.py
 
 ConceptOOD achieves state-of-the-art performance in terms of FPR95 averaged on the 4 OOD datasets.
 
-![results](figs/results.png)
+![results](figs/result.png)
