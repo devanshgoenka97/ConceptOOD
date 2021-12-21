@@ -9,10 +9,11 @@ import csv
 
 np.random.seed(1)
 
-# Now we have k-closest concepts to all targets in ID dataset, we can perform retrieve IoU score as follows:
-# We will forward propagate our test set through the model to get the k-closest concepts to that sample
-# Then we will get the IoU score of the sample against all the k-closest concepts to each target
-# Final IoU score will be the maximum among all IoU scores, and then if IoU_max > threshold, it is ID else OOD
+# Now we have posterior probability of concept occurence to all targets in ID dataset, we can perform retrieve Euclidean score as follows:
+# We will forward propagate our test set through the model to get the average of concept probability for each target
+# We can then create a target prototype by concatenating all posteriors into a single vector
+# Then we will get the Euclidean score of the sample against all target prototypes
+# Final Euclidean score will be the maximum among all negative euclidean scores, and then if Euc_max > threshold, it is ID else OOD
 
 def min_euclid_score(sample_probs, in_scores):
     max_min_dist = -1000000000
@@ -48,16 +49,15 @@ with open('./datasets/broden/broden1_224/label.csv', 'r') as f:
 true_concepts = []
 # Filtering out concepts that are not trained on
 for i, concept in enumerate(concepts):
-    if not os.path.exists("broden/classifiers_2/concept_classifier_{0}.pth".format(concept)):
+    if not os.path.exists("artifacts/classifiers_2/concept_classifier_{0}.pth".format(concept)):
         continue
     true_concepts.append(concept)
 
 true_concepts = np.array(true_concepts)
 
 # Fetching stored training ID scores
-with open('broden/results/id_score_train.pkl', 'rb') as f:
+with open('artifacts/results/id_score_train.pkl', 'rb') as f:
     in_scores = pickle.load(f)
-
 
 # For each target in train ID dataset
 for target in in_scores:
@@ -72,8 +72,7 @@ for target in in_scores:
     # Flattening out structure for easier access
     in_scores[target] = np.array(concept_scores)
 
-# This part propagates each test sample to get the IoU scores for each image in ID dataset.
-
+# This part propagates each test sample to get the Euclidean scores for each image in ID dataset.
 # Fetching stored validation ID scores
 with open('artifacts/results/id_score_val.pkl', 'rb') as f:
     test_scores = pickle.load(f)
@@ -97,7 +96,7 @@ for target in test_scores:
 id_dist.sort()
 threshold = id_dist[round(0.05 * len(id_dist))]
 
-id_ious = np.array(id_dist)
+id_scores = np.array(id_dist)
 
 print(f"Threshold is {threshold}")
 
@@ -129,8 +128,8 @@ for ood_set in ood_dists:
 
 # Getting metrics such as AUROC, FPR at TPR 95
 for ood_set in ood_dists:
-    results = cal_metric(id_ious, ood_dists[ood_set])
+    results = cal_metric(id_scores, ood_dists[ood_set])
     print(f"FPR for {ood_set} is {results['FPR']*100}")
     print(f"AUROC for {ood_set} is {results['AUROC']*100}")
     plot_distrib(id_dist, ood_dists[ood_set], path='artifacts/results/distrib/{out_dataset}_{method}.png'.format(method='Euclidean',out_dataset=ood_set),
-                      title="{out_dataset} {method}".format(method='Euclidean Distance', out_dataset=ood_set))
+                      title="{out_dataset}".format(method='Euclidean Distance', out_dataset=ood_set))
